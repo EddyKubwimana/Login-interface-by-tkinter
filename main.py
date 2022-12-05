@@ -3,96 +3,59 @@ import cv2
 from tkinter import messagebox
 import ast
 
-window = Tk()
-
-window.geometry("925x500+300+200")
-window.configure(bg="#fff")
-window.resizable(True, True)
-image = PhotoImage(file="logo.png")
-Label(window, image=image, border=0, bg="white").place(x=5, y=90)
-
-
-# user entry
-
-def on_enter(username):
-    print(username.delete(0, "end"))
-
-
-def on_leave(username):
-    if username.get() == "":
-        return username.insert(0, "Username")
-
-
-# user confirm password
-
-def enter(confirm_password):
-    return confirm_password.delete(0, "end")
-
-
-def leave(confirm_password):
-    if confirm_password.get() == "":
-        return confirm_password.insert(0, "Confirm password")
-
-
-# user password validation
-def on_enter(password):
-    return password.delete(0, "end")
-
-
-def on_leave(password):
-    if password.get() == "":
-        return password.insert(0, "Password")
-
-
-def us_enter(username):
-    return username.delete(0, "end")
-
-
-def us_leave(username):
-    if username.get() == "":
-        return username.insert(0, "Username")
-
-
-def p_enter(password):
-    return password.delete(0, "end")
-
-
-def p_leave(password):
-    if password.get() == "":
-        return password.insert(0, "Password")
-
 
 # sign up from
+def sign_up():
 
-def signup_form():
-    # sign up Button
-    frame1 = Frame(window, width=350, height=390, bg="#fff")
+    frame1 = Frame(window1, width=350, height=390, bg="#fff")
     frame1.place(x=480, y=50)
+
+    def on_enter(e):
+        username.delete(0, "end")
+
+    def on_leave(e):
+        if username.get() == "":
+            username.insert(0, "Username")
+
+    # user confirm password
+
+    def cp_enter(e):
+        confirm_password.delete(0, "end")
+
+    def cp_leave(e):
+        if confirm_password.get() == "":
+            confirm_password.insert(0, "Confirm password")
+
+    def p_leave(e):
+        if password.get() == "":
+            password.insert(0, "Password")
+
+    def p_enter(e):
+        password.delete(0, "end")
 
     sign_uplabel = Label(frame1, text="SignUp", fg="#57a1f8", bg="White", font=("Microsoft Yahei UI Light", 23, "bold"))
     sign_uplabel.place(x=100, y=5)
-    window.title("Sign up")
 
     username = Entry(frame1, width=25, border=0, fg="black", bg="white", font=("Microsoft Yahei UI Light", 11))
     username.place(x=80, y=80)
     Frame(frame1, width=295, height=2, bg="black").place(x=80, y=107)
     username.insert(0, "Username")
-    username.bind("<FocusIn>", on_enter(username))
-    username.bind("<FocusOut>", on_leave(username))
+    username.bind("<FocusIn>", on_enter)
+    username.bind("<FocusOut>", on_leave)
 
     password = Entry(frame1, width=25, border=0, fg="black", bg="white", font=("Microsoft Yahei UI Light", 11))
     password.place(x=80, y=140)
     Frame(frame1, width=295, height=2, bg="black").place(x=80, y=167)
     password.insert(0, "Password")
-    password.bind("<FocusIn>", on_enter(password))
-    password.bind("<FocusOut>", on_leave(password))
+    password.bind("<FocusIn>", p_enter)
+    password.bind("<FocusOut>", p_leave)
 
     confirm_password = Entry(frame1, width=25, border=0, fg="black", bg="white", font=("Microsoft Yahei UI Light", 11))
     confirm_password.place(x=80, y=200)
     Frame(frame1, width=295, height=2, bg="black").place(x=80, y=227)
     confirm_password.insert(0, "Confirm password")
-    confirm_password.bind("<FocusIn>", enter(confirm_password))
-    confirm_password.bind("<FocusOut>", leave(confirm_password))
+    confirm_password.bind("<FocusIn>", cp_enter)
+    confirm_password.bind("<FocusOut>", cp_leave)
 
     # sign up Button
     Button(frame1, width=20, pady=2, text="Sign up", bg="#57a1f8", fg="white", border=0,
@@ -102,13 +65,27 @@ def signup_form():
     account_havelabel.place(x=80, y=300)
 
     signin_button = Button(frame1, width=20, pady=2, text="Sign in", bg="#57a1f8", fg="white", border=0,
-                           font=("Microsoft Yahei UI Light", 11), command=lambda: signin_form())
+                           font=("Microsoft Yahei UI Light", 11), command=signin_form)
     signin_button.place(x=80, y=340)
 
 
 def signin_form():
-    window.title("Sign in")
-    frame2 = Frame(window, width=350, height=390, bg="#fff")
+
+    def on_enter(e):
+        username.delete(0, "end")
+
+    def on_leave(e):
+        if username.get() == "":
+            username.insert(0, "Username")
+
+    def p_leave(e):
+        if password.get() == "":
+            password.insert(0, "Password")
+
+    def p_enter(e):
+        password.delete(0, "end")
+
+    frame2 = Frame(window1, width=350, height=390, bg="#fff")
     frame2.place(x=480, y=50)
 
     sign_uplabel = Label(frame2, text="Sign In ", fg="#57a1f8", bg="White",
@@ -118,15 +95,15 @@ def signin_form():
     username.place(x=80, y=80)
     Frame(frame2, width=295, height=2, bg="black").place(x=80, y=107)
     username.insert(0, "Username")
-    username.bind("<FocusIn>", us_enter(username))
-    username.bind("<FocusOut>", us_leave(username))
+    username.bind("<FocusIn>", on_enter)
+    username.bind("<FocusOut>", on_leave)
 
     password = Entry(frame2, width=25, border=0, fg="black", bg="white", font=("Microsoft Yahei UI Light", 11))
     password.place(x=80, y=140)
     Frame(frame2, width=295, height=2, bg="black").place(x=80, y=167)
     password.insert(0, "Password")
-    password.bind("<FocusIn>", p_enter(password))
-    password.bind("<FocusOut>", p_leave(password))
+    password.bind("<FocusIn>", p_enter)
+    password.bind("<FocusOut>", p_leave)
 
     Button(frame2, width=20, pady=2, text="Sign in", bg="#57a1f8", fg="white", border=0,
            font=("Microsoft Yahei UI Light", 11)).place(x=80, y=200)
@@ -135,29 +112,19 @@ def signin_form():
     account_havelabel.place(x=80, y=240)
 
     signup_button = Button(frame2, width=20, pady=2, text="Sign up", bg="#57a1f8", fg="white", border=0,
-                           font=("Microsoft Yahei UI Light", 11), command=lambda: signup_form())
+                           font=("Microsoft Yahei UI Light", 11), command=sign_up)
     signup_button.place(x=80, y=280)
 
+window1 = Tk()
+window1.geometry("925x500+300+200")
+window1.configure(bg="#fff")
+window1.resizable(True, True)
+window1.title("Sign up")
+sign_up()
 
-def options():
-    dataOptions = ["New", "open", "Save", "Save as"]
-    dataOptionsAfterseparator = ["Import", "Export", "Exit"]
-    viewOptions = ["Transform", "Edit", "Create"]
-    menuBar = Menu(window)
-    file = Menu(menuBar, tearoff=0)
-    for i in dataOptions:
-        file.add_command(label=i, command=None)
-    file.add_separator()
-    for i in dataOptionsAfterseparator:
-        file.add_command(label=i, command=None)
-    menuBar.add_cascade(label="File", menu=file)
-    View = Menu(menuBar, tearoff=0)
-    for i in viewOptions:
-        View.add_command(label=i, command=None)
-    menuBar.add_cascade(label="View", menu=View)
-    window.config(menu=menuBar)
+mainloop()
 
 
-signin_form()
 
-window.mainloop
+
+
