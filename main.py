@@ -1,7 +1,11 @@
 from tkinter import *
+import bcrypt
+
 import cv2
+from mysql import connector
 from tkinter import messagebox
 import ast
+
 
 
 # sign up from
@@ -25,6 +29,7 @@ def sign_up():
     def cp_leave(e):
         if confirm_password.get() == "":
             confirm_password.insert(0, "Confirm password")
+            
 
     def p_leave(e):
         if password.get() == "":
@@ -32,6 +37,8 @@ def sign_up():
 
     def p_enter(e):
         password.delete(0, "end")
+
+    
 
     sign_uplabel = Label(frame1, text="SignUp", fg="#57a1f8", bg="White", font=("Microsoft Yahei UI Light", 23, "bold"))
     sign_uplabel.place(x=100, y=5)
@@ -42,6 +49,7 @@ def sign_up():
     username.insert(0, "Username")
     username.bind("<FocusIn>", on_enter)
     username.bind("<FocusOut>", on_leave)
+    username_user = username.get()
 
     password = Entry(frame1, width=25, border=0, fg="black", bg="white", font=("Microsoft Yahei UI Light", 11))
     password.place(x=80, y=140)
@@ -49,6 +57,7 @@ def sign_up():
     password.insert(0, "Password")
     password.bind("<FocusIn>", p_enter)
     password.bind("<FocusOut>", p_leave)
+    password_user = password.get()
 
     confirm_password = Entry(frame1, width=25, border=0, fg="black", bg="white", font=("Microsoft Yahei UI Light", 11))
     confirm_password.place(x=80, y=200)
@@ -56,20 +65,46 @@ def sign_up():
     confirm_password.insert(0, "Confirm password")
     confirm_password.bind("<FocusIn>", cp_enter)
     confirm_password.bind("<FocusOut>", cp_leave)
+    confirm_password_user = confirm_password.get()
+    
+    def user_creation():
+        mydb = connector.connect(host="34.171.5.78", username="root", password="*****",
+                                   database='agentconnect')
+        cursor = mydb.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS user(username varchar(255), password varchar(255))")
+        global username_user
+        global password_user
+        global confirm_password_user
+        username_user = username_user
+        password_user= password_user
+        confirm_password_user = confirm_password_user
+        if password_user == confirm_password_user:
+            password_user == password.encode("utf-8")
+            hashed_password = bcrypt.hashpw(password_user,gensalt(10))
+            cursor.execute("INSERT INTO user(username,password) VALUES(username_user,hashed_password)")
+            mydb.commit()
+            messagebox.showinfo("Registered sucessfully", "Welcome to Agent-Connect")
+        else:
+            messagebox.showerror("Password don't match", "Please make verify your password")
 
     # sign up Button
+    
     Button(frame1, width=20, pady=2, text="Sign up", bg="#57a1f8", fg="white", border=0,
-           font=("Microsoft Yahei UI Light", 11)).place(x=80, y=260)
+           font=("Microsoft Yahei UI Light", 11), command = user_creation).place(x=80, y=260)
     account_havelabel = Label(frame1, text="I have an account", fg="#57a1f8", bg="White",
                               font=("Microsoft Yahei UI Light", 11))
     account_havelabel.place(x=80, y=300)
 
+    #sign in button
+
     signin_button = Button(frame1, width=20, pady=2, text="Sign in", bg="#57a1f8", fg="white", border=0,
-                           font=("Microsoft Yahei UI Light", 11), command=signin_form)
+                           font=("Microsoft Yahei UI Light", 11), command=signin)
     signin_button.place(x=80, y=340)
 
 
-def signin_form():
+#definition of the function for signup
+
+def signin():
 
     def on_enter(e):
         username.delete(0, "end")
@@ -84,6 +119,8 @@ def signin_form():
 
     def p_enter(e):
         password.delete(0, "end")
+
+    
 
     frame2 = Frame(window1, width=350, height=390, bg="#fff")
     frame2.place(x=480, y=50)
@@ -105,14 +142,15 @@ def signin_form():
     password.bind("<FocusIn>", p_enter)
     password.bind("<FocusOut>", p_leave)
 
-    Button(frame2, width=20, pady=2, text="Sign in", bg="#57a1f8", fg="white", border=0,
-           font=("Microsoft Yahei UI Light", 11)).place(x=80, y=200)
+    user_create =Button(frame2, width=20, pady=2, text="Sign in", bg="#57a1f8", fg="white", border=0,
+           font=("Microsoft Yahei UI Light", 11))
+    user_create.place(x=80, y=200)
     account_havelabel = Label(frame2, text="I don't an account", fg="#57a1f8", bg="White",
                               font=("Microsoft Yahei UI Light", 11))
     account_havelabel.place(x=80, y=240)
 
     signup_button = Button(frame2, width=20, pady=2, text="Sign up", bg="#57a1f8", fg="white", border=0,
-                           font=("Microsoft Yahei UI Light", 11), command=sign_up)
+                           font=("Microsoft Yahei UI Light", 11), command= sign_up)
     signup_button.place(x=80, y=280)
 
 window1 = Tk()
@@ -120,7 +158,7 @@ window1.geometry("925x500+300+200")
 window1.configure(bg="#fff")
 window1.resizable(True, True)
 window1.title("Sign up")
-sign_up()
+signin()
 
 mainloop()
 
