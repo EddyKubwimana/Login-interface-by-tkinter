@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import ast
+import sign_in
             
 class signup:
     def __init__(self,window):
@@ -8,8 +9,8 @@ class signup:
         self.window.geometry("925x500+100+3")
         self.window.configure(bg ="#fff")
         self.window.resizable(True, True)
-        self.image = PhotoImage(file = "logo.png")
-        Label(window, image = self.image, border = 0, bg = "white").place ( x =5, y = 90)
+        #self.image = PhotoImage(file = "logo.png")
+        #Label(window, image = self.image, border = 0, bg = "white").place ( x =5, y = 90)
         self.frame1= Frame (self.window, width = 350, height = 390 , bg = "#fff")
         self.frame1.place(x =480, y = 50)
 
@@ -47,7 +48,8 @@ class signup:
         self.account_havelabel = Label(self.frame1, text = "I have an account", fg = "#57a1f8", bg = "White", font = ( "Microsoft Yahei UI Light", 11))
         self.account_havelabel.place(x= 80, y = 300)
 
-        self.signin_button = Button( self.frame1, width = 20, pady = 2, text = "Sign in", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),command = lambda: signin_form())
+        self.signin_button = Button( self.frame1, width = 20, pady = 2, text = "Sign in", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),
+                                     command = lambda :[sign_in.S_in(),self.destroy()])
         self.signin_button.place(x=80, y = 340)
         self.window.mainloop
         
@@ -73,9 +75,11 @@ class signup:
     def  name_leave(self,e):
         if self.username.get() == "":
             self.username.insert(0, "Username")
+    def destroy(self):
+        self.window.destroy()
 
         
 
-window = Tk()
-
-form = signup(window)
+def up():
+    window = Tk()
+    form = signup(window)
