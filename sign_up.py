@@ -1,11 +1,15 @@
 from tkinter import *
 from tkinter import messagebox
 import ast
+import sqlite3 as sq
 import sign_in
             
 class signup:
-    def __init__(self,window):
+    def __init__(self,window,sq):
         self.window = window
+        self.sq = sq
+        self.db = self.sq.connect("Agent-Connect.db")
+        self.cursor = self.db.cursor()
         self.window.geometry("925x500+100+3")
         self.window.configure(bg ="#fff")
         self.window.resizable(True, True)
@@ -44,7 +48,7 @@ class signup:
         self.confirm_password.bind("<FocusOut>", self.cp_leave)
 
         #sign up Button
-        Button( self.frame1, width = 20, pady = 2, text = "Sign up", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11)).place( x = 80, y = 260)
+        Button( self.frame1, width = 20, pady = 2, text = "Sign up", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),command = self.b_up).place( x = 80, y = 260)
         self.account_havelabel = Label(self.frame1, text = "I have an account", fg = "#57a1f8", bg = "White", font = ( "Microsoft Yahei UI Light", 11))
         self.account_havelabel.place(x= 80, y = 300)
 
@@ -78,8 +82,23 @@ class signup:
     def destroy(self):
         self.window.destroy()
 
+    def b_up(self):
+        
+        usernam = str(self.username.get())
+        passwor = int(self.password.get())
+        cp_confirm = int(self.confirm_password.get())
+        if passwor == cp_confirm:
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS user([username] TEXT PRIMARY KEY, [password] INTEGER)')
+            self.cursor.execute(f'INSERT INTO user(username,password) VALUES ("{usernam}", "{passwor}")')
+            self.db.commit()
+            messagebox.showinfo('signed up successfully', 'Welcome to Agent-Connect')
+        else:
+           messagebox.showinfo('password error','Password do not match')
+            
+
         
 
 def up():
     window = Tk()
-    form = signup(window)
+    form = signup(window,sq)
+
