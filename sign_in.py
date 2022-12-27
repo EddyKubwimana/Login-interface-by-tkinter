@@ -1,11 +1,15 @@
 from tkinter import *
 from tkinter import messagebox
+import sqlite3 as sq
 import ast
 import sign_up
 
 class SignIn:
-    def __init__(self, window):
+    def __init__(self, window,sq):
         self.window = window
+        self.sq = sq
+        self.db = self.sq.connect('Agent-Connect.db')
+        self.cursor = self.db.cursor()
         self.window.title("Sign in")
         self.window.geometry("925x500+100+3")
         self.window.configure(bg ="#fff")
@@ -36,7 +40,7 @@ class SignIn:
         self.password.bind("<FocusOut>",self.p_leave)
 
 
-        Button( self.frame, width = 20, pady = 2, text = "Sign in", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11) ).place( x = 80, y = 200)
+        Button( self.frame, width = 20, pady = 2, text = "Sign in", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),command = self.sign_ ).place( x = 80, y = 200)
         self.account_havelabel = Label(self.frame, text = "I don't an account", fg = "#57a1f8", bg = "White", font = ( "Microsoft Yahei UI Light", 11))
         self.account_havelabel.place(x= 80, y = 240)
 
@@ -64,11 +68,22 @@ class SignIn:
     def destroy(self):
         self.window.destroy()
 
+    def sign_(self):
+        usernam = self.username.get()
+        credential = self.cursor.execute(f'SELECT username, password FROM user where username= "{usernam}"')
+        credential = credential.fetchall()
+        if len(credential)==0:
+            messagebox.showerror('Sorry', 'The user does not exist')
+        else:
+            if int(self.password.get()) == int(credential[0][1]):
+                messagebox.showinfo('Successfully connected', 'Welcome back to the team')
+                                  
+        
+
 
 
 def S_in():
     window =Tk()
-    form = SignIn(window)
-
+    form = SignIn(window,sq)
 
 
