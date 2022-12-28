@@ -6,8 +6,10 @@ import sign_up
 
 #sign in form
 class SignIn:
-    def __init__(self, window,sq):
-        self.window = window
+    def __init__(self, sq):
+        self.window = Tk()
+        self.window.withdraw()
+        self.window = Toplevel()
         self.sq = sq
         self.db = self.sq.connect('Agent-Connect.db')
         self.cursor = self.db.cursor()
@@ -15,8 +17,8 @@ class SignIn:
         self.window.geometry("925x500+100+3")
         self.window.configure(bg ="#fff")
         self.window.resizable(True, True)
-        #self.image = PhotoImage(file = "logo.png")
-        #Label(self.window, image = self.image, border = 0, bg = "white").place ( x =5, y = 90)
+        self.image = PhotoImage(file = "logo.png")
+        Label(self.window, image = self.image, border = 0, bg = "white").place ( x =5, y = 90)
     
     
         self.frame = Frame (self.window, width = 350, height = 390 , bg = "#fff")
@@ -48,7 +50,6 @@ class SignIn:
         self.signup_button = Button( self.frame, width = 20, pady = 2, text = "Sign up", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),
                                      command = lambda:[self.destroy(),sign_up.up()])
         self.signup_button.place(x=80, y = 280)
-        self.window.mainloop
 
     #event that happens when the cursor is inside the username entry
     def name_enter(self,e):
@@ -86,8 +87,5 @@ class SignIn:
 
 #Function to call the sign in object
 def S_in():
-    window =Tk()
-    form = SignIn(window,sq)
-
-
+   SignIn(sq)
 
