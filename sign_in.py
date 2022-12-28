@@ -4,6 +4,7 @@ import sqlite3 as sq
 import ast
 import sign_up
 
+#sign in form
 class SignIn:
     def __init__(self, window,sq):
         self.window = window
@@ -24,7 +25,7 @@ class SignIn:
 
         self.sign_uplabel = Label(self.frame, text = "Sign In ", fg = "#57a1f8", bg = "White", font = ( "Microsoft Yahei UI Light", 23, "bold"))
         self.sign_uplabel.place(x = 100, y = 5)
-        self.username = Entry(self.frame ,width = 25, border = 0 ,fg = "black", bg = "white", font = ( "Microsoft Yahei UI Light", 11))
+        self.username = Entry(self.frame,width = 25, border = 0 ,fg = "black", bg = "white", font = ( "Microsoft Yahei UI Light", 11))
         self.username.place(x = 80, y = 80)
         Frame(self.frame , width =295 , height = 2, bg = "black").place(x = 80, y = 107)
         self.username.insert(0, "Username")
@@ -47,24 +48,26 @@ class SignIn:
         self.signup_button = Button( self.frame, width = 20, pady = 2, text = "Sign up", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),
                                      command = lambda:[self.destroy(),sign_up.up()])
         self.signup_button.place(x=80, y = 280)
-    def get_id(self):
-        print(self.username.get())
-        print(self.password.get())
         self.window.mainloop
+
+    #event that happens when the cursor is inside the username entry
     def name_enter(self,e):
         self.username.delete(0,"end")
-    
+
+    #Event when the user leaves username entry
     def name_leave(self,e):
         if self.username.get() == "":
              self.username.insert(0, "Username")
-                    
+    #event when the cursor is inside the password entry             
     def p_enter(self,e):
         self.password.delete(0,"end")
-                
+        self.password.config(show = "*")
+    #event when the user leaves the password entry         
     def p_leave(self,e):
         if self.password.get() == "":
+            self.password.config(show = "")
             self.password.insert(0, "Password")
-
+    #function to destroy the whole object
     def destroy(self):
         self.window.destroy()
 
@@ -81,9 +84,10 @@ class SignIn:
         
 
 
-
+#Function to call the sign in object
 def S_in():
     window =Tk()
     form = SignIn(window,sq)
+
 
 
