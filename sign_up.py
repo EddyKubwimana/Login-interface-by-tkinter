@@ -5,16 +5,18 @@ import sqlite3 as sq
 import sign_in
 # the whole sign up form           
 class signup:
-    def __init__(self,window,sq):
-        self.window = window
+    def __init__(self,sq):
+        self.window = Tk()
+        self.window.withdraw()
+        self.window = Toplevel()
         self.sq = sq
         self.db = self.sq.connect("Agent-Connect.db")
         self.cursor = self.db.cursor()
         self.window.geometry("925x500+100+3")
         self.window.configure(bg ="#fff")
         self.window.resizable(True, True)
-        #self.image = PhotoImage(file = "logo.png")
-        #Label(window, image = self.image, border = 0, bg = "white").place ( x =5, y = 90)
+        self.image =PhotoImage(file = "logo.png")
+        Label(self.window, image = self.image, border = 0, bg = "white").place ( x =5, y = 90)
         self.frame1= Frame (self.window, width = 350, height = 390 , bg = "#fff")
         self.frame1.place(x =480, y = 50)
 
@@ -55,9 +57,6 @@ class signup:
         self.signin_button = Button( self.frame1, width = 20, pady = 2, text = "Sign in", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),
                                      command = lambda :[sign_in.S_in(),self.destroy()])
         self.signin_button.place(x=80, y = 340)
-        self.window.mainloop
-        
-
     # user confirm password event
 
     def cp_enter(self,e):
@@ -105,6 +104,4 @@ class signup:
       
 #function to call the class object
 def up():
-    window = Tk()
-    form = signup(window,sq)
-
+    signup(sq)
