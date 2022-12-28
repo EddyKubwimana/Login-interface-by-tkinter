@@ -3,7 +3,7 @@ from tkinter import messagebox
 import ast
 import sqlite3 as sq
 import sign_in
-            
+# the whole sign up form           
 class signup:
     def __init__(self,window,sq):
         self.window = window
@@ -58,30 +58,36 @@ class signup:
         self.window.mainloop
         
 
-    # user confirm password
+    # user confirm password event
 
     def cp_enter(self,e):
         self.confirm_password.delete(0,"end")
+        self.confirm_password.config(show ="*")
     def cp_leave(self,e):
         if self.confirm_password.get() == "":
-            self.confirm_password.insert(0, "")
+            self.confirm_password.config(show ="")
+            self.confirm_password.insert(0, "confirm_password")
                     
-    # user password validation
+    # user password validation event
     def p_enter(self,e):
         self.password.delete(0,"end")
+        self.password.config(show ="*")
     def p_leave(self,e):
         if self.password.get() == "":
-            self.password.insert(0, "")
-
+            self.password.config(show = "")
+            self.password.insert(0, "password")
+    #user username entry event
     def name_enter(self,e):
         self.username.delete(0,"end")
             
     def  name_leave(self,e):
         if self.username.get() == "":
             self.username.insert(0, "Username")
+    #function to destroy this object once user switches windows
     def destroy(self):
         self.window.destroy()
-
+    
+    #function to validate the login  creadentials
     def b_up(self):
         
         usernam = str(self.username.get())
@@ -96,8 +102,8 @@ class signup:
            messagebox.showinfo('password error','Password do not match')
             
 
-        
-
+      
+#function to call the class object
 def up():
     window = Tk()
     form = signup(window,sq)
