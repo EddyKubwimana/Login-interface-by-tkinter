@@ -55,7 +55,7 @@ class signup:
         self.account_havelabel.place(x= 80, y = 300)
 
         self.signin_button = Button( self.frame1, width = 20, pady = 2, text = "Sign in", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),
-                                     command = lambda :[sign_in.S_in(),self.destroy()])
+                                     command = lambda :[sign_in.sin(),self.destroy()])
         self.signin_button.place(x=80, y = 340)
     # user confirm password event
 
@@ -103,5 +103,10 @@ class signup:
 
       
 #function to call the class object
-def up():
+if __name__ == "__main__":
     signup(sq)
+else:
+    def sup():
+        signup(sq)
+    
+        
