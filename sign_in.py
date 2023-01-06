@@ -1,9 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
-import sqlite3 as sq
 import ast
+import sqlite3 as sq
 import sign_up
-
 #sign in form
 class SignIn:
     def __init__(self, sq):
@@ -48,7 +47,7 @@ class SignIn:
         self.account_havelabel.place(x= 80, y = 240)
 
         self.signup_button = Button( self.frame, width = 20, pady = 2, text = "Sign up", bg = "#57a1f8", fg = "white", border = 0,font = ( "Microsoft Yahei UI Light", 11),
-                                     command = lambda:[self.destroy(),sign_up.up()])
+                                     command = lambda:[self.destroy(),sign_up.sup()])
         self.signup_button.place(x=80, y = 280)
 
     #event that happens when the cursor is inside the username entry
@@ -85,7 +84,11 @@ class SignIn:
         
 
 
-#Function to call the sign in object
-def S_in():
+#Function to call the sign in object    
+if __name__ == "__main__":
    SignIn(sq)
+else:
+    def sin():
+        return SignIn(sq)
+        
 
