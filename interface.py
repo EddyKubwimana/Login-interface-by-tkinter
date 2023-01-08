@@ -61,21 +61,6 @@ class accountant(agent):
         
         
 
-        
-    
-
-m1 = manager(8309, "eddy", "kubwimana", "Shombo", 51578, 800000)
-m2 = agent(8307, "eddy", "kubwimana", "Shombo", 51578900, 800000)
-m3 = accountant(8308, "eddy", "kubwimana", "Shombo", 51578900, 800000)
-m4 = manager(8306, "eddy", "kubwimana", "Shombo", 515789, 800000)
-m5 = accountant(8304, "eddy", "kubwimana", "Shombo", 51578900, 800000)
-m6 = manager(8305, "eddy", "kubwimana", "Shombo", 51500, 800000)
-m7 = agent(8303, "eddy", "kubwimana", "Shombo", 51578900, 800000)
-
-employees = [m1,m2,m3,m4,m5,m6,m7]
-
-employees_rapport = m5.get_employees(employees)
-print(employees_rapport)
 
 
 
