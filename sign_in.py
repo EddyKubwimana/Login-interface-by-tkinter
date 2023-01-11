@@ -10,7 +10,7 @@ class SignIn:
         self.window.withdraw()
         self.window = Toplevel()
         self.sq = sq
-        self.db = self.sq.connect('Agent-Connect.db')
+        self.db = self.sq.connect('AgentConnect.db')
         self.cursor = self.db.cursor()
         self.window.title("Sign in")
         self.window.geometry("925x500+100+3")
@@ -76,10 +76,13 @@ class SignIn:
         credential = self.cursor.execute(f'SELECT username, password FROM user where username= "{usernam}"')
         credential = credential.fetchall()
         if len(credential)==0:
-            messagebox.showerror('Sorry', 'The user does not exist')
+            messagebox.showerror('Sorry', 'The user does not exist, try to sign up first')
         else:
-            if int(self.password.get()) == int(credential[0][1]):
+            if self.password.get() == credential[0][1]:
                 messagebox.showinfo('Successfully connected', 'Welcome back to the team')
+
+            else:
+                messagebox.showerror('Sorry', 'The user does not exist, try to sign up first')
                                   
         
 
