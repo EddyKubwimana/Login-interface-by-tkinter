@@ -10,7 +10,7 @@ class signup:
         self.window.withdraw()
         self.window = Toplevel()
         self.sq = sq
-        self.db = self.sq.connect("Agent-Connect.db")
+        self.db = self.sq.connect("AgentConnect.db")
         self.cursor = self.db.cursor()
         self.window.geometry("925x500+100+3")
         self.window.configure(bg ="#fff")
@@ -90,15 +90,19 @@ class signup:
     def b_up(self):
         
         usernam = str(self.username.get())
-        passwor = int(self.password.get())
-        cp_confirm = int(self.confirm_password.get())
-        if passwor == cp_confirm:
-            self.cursor.execute('CREATE TABLE IF NOT EXISTS user([username] TEXT PRIMARY KEY, [password] INTEGER)')
-            self.cursor.execute(f'INSERT INTO user(username,password) VALUES ("{usernam}", "{passwor}")')
-            self.db.commit()
-            messagebox.showinfo('signed up successfully', 'Welcome to Agent-Connect')
+        passwor = str(self.password.get())
+        cp_confirm = str(self.confirm_password.get())
+        if len(passwor)>= 8 and passwor.isalnum():
+            if passwor == cp_confirm:
+                self.cursor.execute('CREATE TABLE IF NOT EXISTS user([username] TEXT PRIMARY KEY, [password] TEXT)')
+                self.cursor.execute(f'INSERT INTO user(username,password) VALUES ("{usernam}", "{passwor}")')
+                self.db.commit()
+                messagebox.showinfo('signed up successfully', 'Welcome to Agent-Connect')
+            else:
+               messagebox.showinfo('password error','Password do not match')
         else:
-           messagebox.showinfo('password error','Password do not match')
+            messagebox.showinfo('password error', 'Your password is has to be of length 8 and alphanumeric')
+           
             
 
       
